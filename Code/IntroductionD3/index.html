@@ -1,0 +1,65 @@
+<html>
+    <head>
+         <script src="./d3.v5.min.js"></script>
+         <style>
+             .bar{
+                 margin: 10px 0px;
+                 display: flex;
+                 align-items: center;
+
+             }
+             .text-data{
+                 color:white;
+             }
+
+         </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+        </div>
+       <script>
+
+           const getName=()=>{
+               const randomNumber=Math.floor(Math.random(500) * 500);
+               return "Bar_"+randomNumber==0 ? 10 :randomNumber;
+           }
+
+           const getScore=()=>{
+            const randomNumber=Math.floor(Math.random(1000) * 1000);
+            return randomNumber==0 ? 100 :randomNumber;
+           }
+
+           const width=500;
+           
+
+           
+           const data=[1,2,3,4,5].map(d=>{
+               return {
+                   sno:d,
+                   name:getName(),
+                   score:getScore()
+                }
+            });
+
+            const minMax=d3.extent(data,d=>d.score);
+            
+            const scale=d3.scaleLinear().domain([0,minMax[1]]).range([0,width]);
+
+            d3.selectAll(".container")
+                .selectAll("div")
+                .data(data)
+                .enter()
+                .append("div")
+                .attr("class",'bar')
+                .style("height","30px")
+                .style("width",d=>scale(d.score))
+                .style("background","#4682B4")
+                .append("div")
+                .html(d=>`<span class='text-data'>${d.name}</span>`)
+
+       </script>
+
+    </body>
+</html>
